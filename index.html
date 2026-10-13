@@ -289,145 +289,262 @@ Request timed out. Request timed out.
       </div>
 
       <div class="slide-body">
-        <div class="card">
-          <h3 class="card-title">La Imposibilidad del Cableado Dedicado</h3>
-          <div class="card-content">
-            <div class="concept-point" style="border-left-color: #f43f5e;">
-              <h4 style="color: #f43f5e;">El Problema: 1 Cable por Cada VLAN</h4>
-              <p>Con 3 VLANs harían falta 3 cables entre edificios. Con 50 VLANs serían 50 puertos de cada switch y 50 cables. <strong>Es inviable física y económicamente.</strong></p>
+        <!-- Columna Izquierda: Teoría y Comandos IOS -->
+        <div class="card" style="padding: 1.2rem; display: flex; flex-direction: column;">
+          <h3 class="card-title" style="margin-bottom: 0.75rem; font-size: 1.05rem;">La Imposibilidad del Cableado Dedicado</h3>
+          <div class="card-content" style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div class="concept-point" style="border-left-color: #f43f5e; margin-bottom: 0; padding: 0.65rem 0.9rem;">
+              <h4 style="color: #f43f5e; font-size: 0.9rem; margin-bottom: 0.2rem;">El Problema: 1 Cable por Cada VLAN</h4>
+              <p style="font-size: 0.82rem; line-height: 1.4;">Con 3 VLANs harían falta 3 cables entre edificios. Con 50 VLANs serían 50 bocas de switch y 50 cables subterráneos. <strong>Es inviable física y económicamente.</strong></p>
             </div>
-            <div class="concept-point">
-              <h4>Puerto de Acceso (Access)</h4>
-              <p>Pertenece a una sola VLAN (PCs, impresoras). Las tramas viajan <strong>limpias, sin ninguna etiqueta</strong>.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+              <div class="concept-point" style="margin-bottom: 0; padding: 0.6rem 0.8rem;">
+                <h4 style="font-size: 0.86rem; margin-bottom: 0.2rem;">Puerto Access</h4>
+                <p style="font-size: 0.78rem; line-height: 1.35;">Pertenece a 1 sola VLAN (PCs). Las tramas viajan <strong>limpias, sin etiqueta</strong>.</p>
+              </div>
+              <div class="concept-point" style="border-left-color: #c084fc; margin-bottom: 0; padding: 0.6rem 0.8rem;">
+                <h4 style="color: #7c3aed; font-size: 0.86rem; margin-bottom: 0.2rem;">Puerto Trunk</h4>
+                <p style="font-size: 0.78rem; line-height: 1.35;">Enlace entre switches. <strong>Multiplexa todas las VLANs</strong> en 1 cable físico.</p>
+              </div>
             </div>
-            <div class="concept-point" style="border-left-color: #c084fc;">
-              <h4 style="color: #7c3aed;">Puerto Troncal (Trunk)</h4>
-              <p>Enlace entre equipos de red que transporta el tráfico de <strong>múltiples VLANs por un solo cable físico</strong>.</p>
+
+            <div style="background: #1e293b; border-radius: 8px; padding: 0.7rem 0.9rem; font-family: var(--font-mono); font-size: 0.76rem; color: #f8fafc; line-height: 1.45; border: 1px solid rgba(255,255,255,0.08); margin-top: 0.2rem;">
+              <div style="color: #94a3b8; font-size: 0.7rem; margin-bottom: 0.3rem; text-transform: uppercase; font-weight: 700;">Equivalente CLI Cisco IOS:</div>
+              <span style="color: #38bdf8;">Switch(config-if)#</span> <strong>switchport mode trunk</strong> <span style="color: #64748b;">(Multiplexa VLANs)</span><br/>
+              <span style="color: #38bdf8;">Switch(config-if)#</span> <strong>switchport mode access</strong> <span style="color: #64748b;">(VLAN individual)</span>
             </div>
           </div>
         </div>
 
-        <div class="sim-stage">
-          <div class="sim-toolbar">
-            <span class="sim-status">Enlace Troncal Multiplexado</span>
-            <div class="sim-actions">
-              <span style="font-size:0.75rem; color:#c084fc; font-family:var(--font-mono);">802.1Q Multiplexing</span>
+        <!-- Columna Derecha: Configuración de Interfaz en PT + Simulación Achicada -->
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; min-height: 0;">
+          <!-- Tarjeta Destacada de Configuración del Modo Access / Trunk -->
+          <div class="card" style="padding: 1rem; flex: 1; display: flex; flex-direction: column; min-height: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem; margin-bottom: 0.5rem;">
+              <h3 class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0; font-size: 1rem;">
+                Configuración en Packet Tracer: Modo de Puerto
+              </h3>
+              <span style="font-size: 0.72rem; color: var(--bordo-main); font-weight: 700; font-family: var(--font-mono); background: var(--bordo-soft); padding: 0.15rem 0.5rem; border-radius: 4px;">
+                Trunk vs Access
+              </span>
+            </div>
+
+            <div style="flex: 1; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0.4rem; cursor: pointer; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);" onclick="openImageModal('interfaz del puerto trunk o access.png', 'Configuración de Interfaz en Cisco Packet Tracer: Selección entre Modo Trunk y Access')" title="Clic para ampliar">
+              <img src="interfaz del puerto trunk o access.png" alt="Configuración de interfaz Trunk o Access en Cisco Packet Tracer" style="width: auto; max-width: 100%; max-height: 180px; object-fit: contain; border-radius: 4px;">
+            </div>
+
+            <div style="margin-top: 0.5rem; font-size: 0.77rem; color: var(--text-muted); line-height: 1.35;">
+              En la pestaña <strong>Config &gt; FastEthernet0/x</strong> (o Gig0/x) se despliega la opción para definir si el puerto opera en modo <strong>Trunk</strong> (para interconectar switches) o <strong>Access</strong> (para PCs finales).
             </div>
           </div>
-          <div class="sim-canvas-wrap">
-            <svg class="network-svg" viewBox="0 0 500 300">
-              <line class="cable trunk" x1="140" y1="150" x2="360" y2="150" />
-              <text x="250" y="130" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="700" font-family="monospace">TRONCAL (1 CABLE - TODAS LAS VLANS)</text>
 
-              <g class="node" transform="translate(140, 150)">
-                <rect x="-45" y="-22" width="90" height="44" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-                <text x="0" y="0" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">SWITCH EDIF. 1</text>
-                <text x="0" y="14" text-anchor="middle" fill="#38bdf8" font-size="8">Sistemas / Diseño</text>
-              </g>
+          <!-- Simulación esquemática achicada -->
+          <div class="sim-stage" style="flex: 0 0 150px; min-height: 150px;">
+            <div class="sim-toolbar" style="padding: 0.35rem 0.75rem;">
+              <span class="sim-status" style="font-size: 0.73rem;">Enlace Troncal Multiplexado (1 Cable)</span>
+              <div class="sim-actions">
+                <span style="font-size:0.7rem; color:#c084fc; font-family:var(--font-mono); font-weight:700;">802.1Q Multiplexing</span>
+              </div>
+            </div>
+            <div class="sim-canvas-wrap" style="min-height: 105px; height: 105px;">
+              <svg class="network-svg" viewBox="0 0 500 150" preserveAspectRatio="xMidYMid meet">
+                <line class="cable trunk" x1="120" y1="75" x2="380" y2="75" stroke-width="3.5" />
+                <text x="250" y="58" text-anchor="middle" fill="#c084fc" font-size="9.5" font-weight="700" font-family="'JetBrains Mono', monospace">1 CABLE FÍSICO — TODAS LAS VLANS</text>
 
-              <g class="node" transform="translate(360, 150)">
-                <rect x="-45" y="-22" width="90" height="44" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
-                <text x="0" y="0" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">SWITCH EDIF. 2</text>
-                <text x="0" y="14" text-anchor="middle" fill="#10b981" font-size="8">Sistemas / Diseño</text>
-              </g>
-            </svg>
+                <!-- Switch Edificio 1 -->
+                <g class="node" transform="translate(120, 75)">
+                  <rect x="-46" y="-22" width="92" height="44" rx="7" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                  <text x="0" y="-3" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700">SWITCH EDIF. 1</text>
+                  <text x="0" y="11" text-anchor="middle" fill="#38bdf8" font-size="7.5" font-weight="600">Sistemas / Admin</text>
+                </g>
+
+                <!-- Switch Edificio 2 -->
+                <g class="node" transform="translate(380, 75)">
+                  <rect x="-46" y="-22" width="92" height="44" rx="7" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+                  <text x="0" y="-3" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700">SWITCH EDIF. 2</text>
+                  <text x="0" y="11" text-anchor="middle" fill="#10b981" font-size="7.5" font-weight="600">Sistemas / Admin</text>
+                </g>
+
+                <!-- Paquetes demostrativos en tránsito en el trunk -->
+                <g transform="translate(205, 75)">
+                  <rect x="-20" y="-9" width="40" height="18" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2"/>
+                  <text x="0" y="3.5" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="'JetBrains Mono', monospace">VLAN 10</text>
+                </g>
+                <g transform="translate(295, 75)">
+                  <rect x="-20" y="-9" width="40" height="18" rx="4" fill="#059669" stroke="#34d399" stroke-width="1.2"/>
+                  <text x="0" y="3.5" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="'JetBrains Mono', monospace">VLAN 20</text>
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 5: PARTE 2 - LA ETIQUETA IEEE 802.1Q -->
+    <!-- SLIDE 5: PARTE 2 - LA ETIQUETA IEEE 802.1Q (DIAPOSITIVA 6) -->
     <section class="slide" data-slide="5">
       <div class="slide-header">
         <span class="section-tag">Parte 2: IEEE 802.1Q</span>
-        <h2 class="slide-title">La Etiqueta 802.1Q: Cómo Viaja el Tráfico</h2>
-        <p class="slide-subtitle">Cuatro bytes inyectados dentro de la trama Ethernet tras la MAC origen (estándar desde 1998).</p>
+        <h2 class="slide-title">La Etiqueta 802.1Q: Antes vs. Después en Packet Tracer</h2>
+        <p class="slide-subtitle">Inserción de 4 Bytes (TPID + TCI) y disección matemática del valor hexadecimal en el cable troncal.</p>
       </div>
 
-      <div class="slide-body full-width">
-        <div class="card">
-          <h3 class="card-title">Inserción de 4 Bytes (32 bits) en la Trama Ethernet</h3>
+      <div class="slide-body">
+        <!-- Columna Izquierda: El Antes y Después real en Cisco Packet Tracer -->
+        <div class="card" style="padding: 1.1rem; display: flex; flex-direction: column; gap: 0.65rem;">
+          <h3 class="card-title" style="margin-bottom: 0.2rem; font-size: 1.05rem;">
+            Evidencia en Packet Tracer: Puerto Access vs. Trunk
+          </h3>
 
-          <div class="frame-bar">
-            <div class="frame-block fb-eth" style="width: 10%;">Preámbulo<span class="size">8 B</span></div>
-            <div class="frame-block fb-eth" style="width: 14%;">MAC Dst<span class="size">6 B</span></div>
-            <div class="frame-block fb-eth" style="width: 14%;">MAC Src<span class="size">6 B</span></div>
-            <div class="frame-block fb-tag" style="width: 24%;">
-              TAG 802.1Q (INSERCIÓN)<span class="size" style="font-weight:700;">4 Bytes (32 bits)</span>
+          <!-- 1. Antes: Puerto de Acceso -->
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-size: 0.8rem; color: var(--bordo-dark); display: flex; align-items: center; gap: 0.3rem;">
+                1. Entrada: Puerto de Acceso (Switch2)
+              </strong>
+              <span style="font-size: 0.68rem; color: #0284c7; background: rgba(2,132,199,0.1); border: 1px solid rgba(2,132,199,0.25); padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">
+                Ethernet II (Sin Tag)
+              </span>
             </div>
-            <div class="frame-block fb-eth" style="width: 12%;">EtherType<span class="size">2 B</span></div>
-            <div class="frame-block fb-payload">Carga Útil / Payload IP<span class="size">46 - 1500 B</span></div>
-            <div class="frame-block fb-fcs" style="width: 10%;">FCS<span class="size">4 B</span></div>
+            <div style="background: #ffffff; border-radius: 6px; padding: 0.25rem; border: 1px solid #e2e8f0; text-align: center; cursor: pointer; max-height: 120px; overflow: hidden;" onclick="openImageModal('pdu_acceso_ethernet2.png', 'Trama en Puerto de Acceso: Formato Ethernet II convencional sin etiqueta 802.1Q')" title="Clic para ampliar">
+              <img src="pdu_acceso_ethernet2.png" alt="PDU en puerto de acceso Ethernet II sin etiqueta" style="width: auto; max-width: 100%; max-height: 115px; object-fit: contain;">
+            </div>
+            <p style="font-size: 0.73rem; color: var(--text-muted); line-height: 1.3; margin: 0;">
+              La PC transmite tramas normales. No existe etiqueta alguna; la placa de red final es agnóstica a las VLANs.
+            </p>
           </div>
 
-          <div class="tag-breakdown">
-            <div class="tag-field-card">
-              <h5>TPID (Tag Protocol ID)</h5>
-              <div class="bits">16 Bits (2 Bytes)</div>
-              <div class="desc">Valor fijo <strong>0x8100</strong> en hexadecimal. Avisa que lo que sigue es una etiqueta de VLAN.</div>
+          <!-- 2. Después: Enlace Troncal -->
+          <div style="background: var(--bg-secondary); border: 1px solid rgba(192, 132, 252, 0.4); border-radius: 8px; padding: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-size: 0.8rem; color: #7c3aed; display: flex; align-items: center; gap: 0.3rem;">
+                2. Tránsito: Enlace Troncal (CopySwitch0)
+              </strong>
+              <span style="font-size: 0.68rem; color: #7c3aed; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">
+                Ethernet 802.1q (Inyección 4B)
+              </span>
             </div>
-            <div class="tag-field-card">
-              <h5>PCP (Priority Code Point)</h5>
-              <div class="bits">3 Bits (8 Niveles)</div>
-              <div class="desc">Prioridad para tráfico sensible (QoS), como llamadas telefónicas sobre descargas.</div>
+            <div style="background: #ffffff; border-radius: 6px; padding: 0.25rem; border: 1px solid #e2e8f0; text-align: center; cursor: pointer; max-height: 120px; overflow: hidden;" onclick="openImageModal('pdu_troncal_8021q.png', 'Trama en Enlace Troncal: Formato Ethernet 802.1q con TPID (0x81) y TCI (0xa = VLAN 10)')" title="Clic para ampliar">
+              <img src="pdu_troncal_8021q.png" alt="PDU en enlace troncal con TPID y TCI 802.1Q" style="width: auto; max-width: 100%; max-height: 115px; object-fit: contain;">
             </div>
-            <div class="tag-field-card">
-              <h5>DEI (Drop Eligible)</h5>
-              <div class="bits">1 Bit</div>
-              <div class="desc">Bandera de descarte prioritario en búferes congestionados.</div>
+            <p style="font-size: 0.73rem; color: var(--text-muted); line-height: 1.3; margin: 0;">
+              El switch inyecta la cabecera 802.1Q con <strong>TPID: 0x81</strong> y <strong>TCI: 0xa</strong> antes de enviarlo por el troncal.
+            </p>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Desglose de los 4 Bytes y Matemática de TCI -->
+        <div class="card" style="padding: 1.1rem; display: flex; flex-direction: column;">
+          <h3 class="card-title" style="margin-bottom: 0.55rem; font-size: 1.05rem;">
+            Disección de los 4 Bytes: ¿Qué significan TPID y TCI?
+          </h3>
+          <div class="card-content" style="display: flex; flex-direction: column; gap: 0.55rem;">
+            <!-- Desglose de los dos bloques de 16 bits -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div class="concept-point" style="margin-bottom: 0; padding: 0.5rem 0.7rem; border-left-color: #0284c7;">
+                <h4 style="font-size: 0.82rem; color: #0284c7; margin-bottom: 0.15rem;">TPID (16 bits / 2 Bytes)</h4>
+                <p style="font-size: 0.74rem; line-height: 1.3;">Valor fijo <strong>0x8100</strong> (PT muestra <code>0x81</code>). Avisa al receptor que lo que sigue es una etiqueta de VLAN.</p>
+              </div>
+              <div class="concept-point" style="margin-bottom: 0; padding: 0.5rem 0.7rem; border-left-color: #7c3aed;">
+                <h4 style="font-size: 0.82rem; color: #7c3aed; margin-bottom: 0.15rem;">TCI (16 bits / 2 Bytes)</h4>
+                <p style="font-size: 0.74rem; line-height: 1.3;"><strong>Tag Control Information:</strong> Agrupa PCP (3b), DEI (1b) y VID (12b) en un solo campo numérico.</p>
+              </div>
             </div>
-            <div class="tag-field-card" style="border-color: var(--bordo-main); background: var(--bordo-soft);">
-              <h5 style="color: var(--bordo-main);">VID (VLAN Identifier)</h5>
-              <div class="bits" style="color: var(--bordo-main);">12 Bits (4096 VLANs)</div>
-              <div class="desc">Identificador numérico de la VLAN de pertenencia.</div>
+
+            <!-- Caja destacada: Demostración Matemática de TCI: 0xa -->
+            <div style="background: #1e293b; border-radius: 8px; padding: 0.75rem 0.9rem; border: 1px solid rgba(255,255,255,0.1); color: #f8fafc; font-family: var(--font-mono);">
+              <div style="color: #38bdf8; font-size: 0.74rem; font-weight: 700; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center;">
+                <span>¿POR QUÉ PACKET TRACER MUESTRA TCI: 0xa?</span>
+                <span style="color: #10b981; font-size: 0.7rem;">0xa = VLAN 10</span>
+              </div>
+              <div style="font-size: 0.72rem; line-height: 1.5; color: #cbd5e1;">
+                • <strong>PCP (3 bits):</strong> <span style="color:#f59e0b;">000</span> (Prioridad normal / Best Effort)<br/>
+                • <strong>DEI (1 bit):</strong> <span style="color:#94a3b8;">0</span> (No elegible para descarte)<br/>
+                • <strong>VID (12 bits):</strong> <span style="color:#10b981;">0000 0000 1010</span> (Número 10 en binario)
+              </div>
+              <div style="margin-top: 0.4rem; padding-top: 0.35rem; border-top: 1px dashed rgba(255,255,255,0.2); font-size: 0.74rem;">
+                <span style="color: #94a3b8;">Total 16 bits:</span> <span style="color:#f59e0b;">000</span><span style="color:#94a3b8;">0</span><span style="color:#10b981;">000000001010</span>₂ = <strong style="color: #38bdf8;">0x000A</strong> (hex)<br/>
+                <span style="color: #10b981; font-weight:700;">➔ En Packet Tracer figura abreviado como: TCI: 0xa</span>
+              </div>
+            </div>
+
+            <!-- Explicación de SFD -->
+            <div style="background: var(--bg-secondary); border-radius: 6px; padding: 0.5rem 0.75rem; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; font-size: 0.73rem;">
+              <div>
+                <strong style="color: var(--bordo-dark);">SFD (Start Frame Delimiter):</strong>
+                <span style="color: var(--text-muted);"> 1 Byte (<code>10101011</code>) al final del preámbulo de Capa 1/2. Indica el fin de sincronismo e inicio de la MAC destino. No es parte del tag.</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 6: PARTE 2 - DEMO EN PACKET TRACER: MODO SIMULACIÓN -->
+    <!-- SLIDE 6: PARTE 2 - CICLO SIMÉTRICO Y AISLAMIENTO (DIAPOSITIVA 7) -->
     <section class="slide" data-slide="6">
       <div class="slide-header">
-        <span class="section-tag">Parte 2: Demostración en Packet Tracer</span>
-        <h2 class="slide-title">Modo Simulación, PDU Details y Complex PDU</h2>
-        <p class="slide-subtitle">Frenar el tiempo para ver el sobre moverse de equipo en equipo y revisar la etiqueta real.</p>
+        <span class="section-tag">Parte 2: Ciclo y Aislamiento</span>
+        <h2 class="slide-title">Ciclo Simétrico, Des-etiquetado y Prueba de Aislamiento</h2>
+        <p class="slide-subtitle">Transparencia hacia los hosts finales, fallo de ping inter-VLAN y la necesidad ineludible de Capa 3.</p>
       </div>
 
       <div class="slide-body">
-        <div class="card">
-          <h3 class="card-title">Inspección Paso a Paso del Sobre</h3>
-          <div class="card-content">
-            <div class="concept-point">
-              <h4>Pestaña Inbound PDU Details</h4>
-              <p>Muestra la trama campo por campo en hexadecimal: en el enlace troncal aparece la <strong>etiqueta 802.1Q</strong> con el número de VLAN adentro.</p>
+        <!-- Columna Izquierda: Ciclo Simétrico y Hosts Agnósticos -->
+        <div class="card" style="padding: 1.15rem; display: flex; flex-direction: column;">
+          <h3 class="card-title" style="margin-bottom: 0.65rem; font-size: 1.05rem;">
+            Ciclo Simétrico y Transparencia Operativa
+          </h3>
+          <div class="card-content" style="display: flex; flex-direction: column; gap: 0.55rem;">
+            <div class="concept-point" style="margin-bottom: 0; padding: 0.55rem 0.85rem;">
+              <h4 style="font-size: 0.86rem; margin-bottom: 0.15rem;">1. Des-etiquetado en el Puerto de Acceso</h4>
+              <p style="font-size: 0.78rem; line-height: 1.35;">Al llegar al destino, el switch receptor <strong>retira la etiqueta 802.1Q</strong> antes de entregar la trama. La placa de red de la PC recibe una trama Ethernet limpia normal.</p>
             </div>
-            <div class="concept-point">
-              <h4>El Switch Retira la Etiqueta</h4>
-              <p>Al llegar al puerto de acceso de destino, el switch le saca la etiqueta antes de entregarla porque la placa de red común la descartaría.</p>
+
+            <div class="concept-point" style="margin-bottom: 0; padding: 0.55rem 0.85rem;">
+              <h4 style="font-size: 0.86rem; margin-bottom: 0.15rem;">2. Ciclo Espejo (ICMP Echo Reply)</h4>
+              <p style="font-size: 0.78rem; line-height: 1.35;">La PC responde sin etiqueta. El switch receptor le inyecta la etiqueta con el VID 10 para cruzar el trunk de regreso, y el switch emisor se la retira antes de entregársela al origen.</p>
             </div>
-            <div class="concept-point" style="border-left-color: var(--accent-cyan);">
-              <h4 style="color: var(--accent-cyan);">Función Investigada: Complex PDU (Sobre Abierto ✉️)</h4>
-              <p>Permite fabricar un paquete a mano eligiendo protocolo, puertos, tamaño y TTL para provocar errores y estudiar la respuesta de la red.</p>
+
+            <div class="concept-point" style="border-left-color: var(--bordo-main); margin-bottom: 0; padding: 0.55rem 0.85rem; background: var(--bordo-soft);">
+              <h4 style="color: var(--bordo-main); font-size: 0.86rem; margin-bottom: 0.15rem;">Principio Clave: Hosts Agnósticos a VLANs</h4>
+              <p style="font-size: 0.78rem; line-height: 1.35; color: var(--bordo-dark);">Las computadoras finales <strong>jamás se enteran de las VLANs ni de las etiquetas 802.1Q</strong>. Es un mecanismo transparente administrado 100% por los switches.</p>
+            </div>
+
+            <!-- Caja de Transición / Pase a Parte 3 -->
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.6rem 0.85rem; margin-top: 0.2rem;">
+              <strong style="color: var(--bordo-dark); font-size: 0.8rem; display: flex; align-items: center; gap: 0.35rem;">
+                🔗 Pase de Posta a la Parte 3: Router-on-a-Stick
+              </strong>
+              <p style="font-size: 0.74rem; color: var(--text-muted); margin: 0.2rem 0 0; line-height: 1.35;">
+                Las VLANs aíslan tanto que ahora Sistemas y Administración no se pueden comunicar. Para conectarlas de forma controlada, conectamos este mismo enlace troncal a un router.
+              </p>
             </div>
           </div>
         </div>
 
-        <div class="card">
-          <h3 class="card-title">Captura PDU Details en Packet Tracer</h3>
-          <div class="card-content">
-            <pre style="background: #1e293b; padding: 0.85rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: #f8fafc; line-height: 1.5;">
-=== ETHERNET II FRAME WITH 802.1Q ===
-PREAMBLE:     10101010...
-DEST MAC:     000A.4111.0002
-SRC MAC:      000A.4111.0001
-[TAG 802.1Q]
-  -> TPID:    0x8100  (IEEE 802.1Q Tagged)
-  -> PRIO:    0       (Best Effort)
-  -> DEI:     0
-  -> VLAN ID: 10      (VLAN Administración)
-ETHERTYPE:    0x0800  (IPv4)
-[Al salir por puerto de acceso: Etiqueta eliminada]</pre>
+        <!-- Columna Derecha: Captura de Ping Inter-VLAN Fallido -->
+        <div class="card" style="padding: 1.15rem; display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem; margin-bottom: 0.55rem;">
+            <h3 class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0; font-size: 1.02rem;">
+              Prueba de Aislamiento Inter-VLAN
+            </h3>
+            <span style="font-size: 0.7rem; color: #f43f5e; background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;">
+              Ping Descartado ❌
+            </span>
+          </div>
+
+          <div style="flex: 1; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0.35rem; cursor: pointer; min-height: 165px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);" onclick="openImageModal('ping_aislamiento_error.png', 'Intento de Ping Inter-VLAN: Descarte inmediato con cruz roja en origen por pertenecer a subredes lógicas disjuntas sin router de Capa 3')" title="Clic para ampliar">
+            <img src="ping_aislamiento_error.png" alt="Intento de ping inter-VLAN fallido en Cisco Packet Tracer" style="width: auto; max-width: 100%; max-height: 185px; object-fit: contain;">
+          </div>
+
+          <!-- Diagnóstico técnico -->
+          <div style="background: #1e293b; border-radius: 8px; padding: 0.65rem 0.85rem; border: 1px solid rgba(255,255,255,0.08); color: #f8fafc; font-family: var(--font-mono); font-size: 0.73rem; margin-top: 0.55rem; line-height: 1.4;">
+            <div style="color: #f43f5e; font-weight: 700; margin-bottom: 0.2rem;">¿Por qué se descarta en origen (Cruz Roja ❌)?</div>
+            <span style="color: #cbd5e1;">• PC Sistemas A (192.168.10.x) intenta ping a PC Admin 2 (192.168.20.x).</span><br/>
+            <span style="color: #cbd5e1;">• Detecta que está en <strong>otra subred IP</strong> y busca un Default Gateway.</span><br/>
+            <span style="color: #38bdf8;">• Al no existir un Router, la pila TCP/IP aborta de inmediato el envío.</span><br/>
+            <span style="color: #10b981; font-weight: 700;">➔ Límite de Capa 2 comprobado: El switch conmuta MACs, no enruta IPs.</span>
           </div>
         </div>
       </div>
@@ -869,6 +986,19 @@ Fa0/2      Altn  BLK  19      P2p [Ámbar - Bloqueado]
       <button class="nav-pill-btn primary" id="btnNextSlide">Siguiente</button>
     </div>
   </footer>
+
+  <!-- Modal de Zoom de Imágenes para Exposición -->
+  <div id="imageModal" class="img-modal-backdrop" onclick="closeImageModal(event)">
+    <div class="img-modal-content" onclick="event.stopPropagation()">
+      <div class="img-modal-header">
+        <span id="imgModalTitle" class="img-modal-title">Detalle de Captura</span>
+        <button class="img-modal-close" onclick="closeImageModal()">&times;</button>
+      </div>
+      <div class="img-modal-body">
+        <img id="imgModalTarget" src="" alt="Captura ampliada">
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

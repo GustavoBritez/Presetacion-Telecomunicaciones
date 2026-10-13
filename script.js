@@ -28,11 +28,11 @@ const speakerNotes = [
   // Slide 4: Parte 2 - Troncales: El Problema de Edificios
   "Gracias. Las VLANs funcionan dentro de un switch. Veamos qué pasa cuando la empresa tiene más de uno.\n\nImaginemos una universidad con dos edificios. En los dos hay alumnos de Sistemas, de Diseño y de Administración, y queremos que cada carrera esté en su propia VLAN. En cada edificio hay un switch.\n\nSi solo existieran los puertos normales, para unir los dos switches respetando las VLANs habría que tirar un cable por cada VLAN. Tres VLANs, tres cables entre edificios. Con cincuenta VLANs serían cincuenta puertos de cada switch y cincuenta tiradas de cable, solo para unirlos. Y cada VLAN nueva exigiría un cable nuevo. Es inviable.\n\nPor eso existen dos modos de funcionamiento para los puertos de un switch:\n- El puerto de acceso: pertenece a una sola VLAN para computadoras e impresoras. Las tramas viajan limpias, sin ninguna etiqueta.\n- El puerto troncal (trunk): es un enlace entre dos equipos de red, y puede transportar el tráfico de muchas VLANs al mismo tiempo por un solo cable.",
 
-  // Slide 5: Parte 2 - La Etiqueta IEEE 802.1Q
-  "Ahí aparece la pregunta: si por ese único cable viajan mezcladas las tramas de las tres carreras, ¿cómo hace el switch del otro lado para saber a cuál pertenece cada una? Son todas tramas Ethernet idénticas.\n\nLa respuesta es que el switch que las envía les pega una etiqueta antes de mandarlas. Esa etiqueta está estandarizada desde 1998 y se llama IEEE 802.1Q.\n\nSon cuatro bytes que se insertan dentro de la trama, justo después de la dirección MAC de origen: no se envuelve la trama entera, se le inyectan cuatro bytes en el medio:\n- Los primeros dos bytes son el TPID, un valor fijo 0x8100 que le avisa al equipo receptor que lo que sigue es una etiqueta de VLAN.\n- Tres bits de prioridad, el campo PCP, para que el tráfico sensible como voz pase antes que descargas.\n- Un bit llamado DEI.\n- Y por último doce bits que son el VID, el identificador de la VLAN, con el que se pueden numerar hasta 4096 VLANs.",
+  // Slide 5: Parte 2 - La Etiqueta IEEE 802.1Q (Diapositiva 6)
+  "Ahí surge la pregunta clave: si por ese único cable troncal viajan mezcladas las tramas de Sistemas y de Administración, ¿cómo hace el switch del otro edificio para saber a qué VLAN pertenece cada una si todas son tramas Ethernet estándar?\n\nLa respuesta es que el switch que las transmite les inserta una etiqueta estandarizada por el IEEE 802.1Q. En vez de encapsular la trama entera como hacía el viejo protocolo propietario ISL de Cisco, inyecta cuatro bytes (32 bits) justo después de la dirección MAC de origen.\n\nEn Packet Tracer esto se ve claramente en el antes y el después de la PDU:\n- En el puerto de acceso la trama es Ethernet II convencional, limpia y sin etiqueta, porque las computadoras finales no entienden 802.1Q.\n- Pero cuando entra al cable troncal, el formato cambia a Ethernet 802.1q y se ven dos campos de dos bytes cada uno: TPID y TCI.\n\nEl TPID vale 0x8100 (abreviado 0x81), que avisa que lo que sigue es una etiqueta de VLAN. Y en el TCI están empaquetados los campos que define la teoría: tres bits de prioridad PCP, un bit de descarte DEI y doce bits de VID para el número de VLAN.\n\n¿Y por qué Packet Tracer muestra TCI: 0xa? Porque al no haber prioridad ni descarte, los bits de PCP y DEI son cero, y el VID es 0000 0000 1010, que es el número 10 en binario. Esos dieciséis bits convertidos a hexadecimal dan exactamente 0x000A, abreviado como 0xa. Es la demostración matemática de que la trama viaja identificada como VLAN 10.",
 
-  // Slide 6: Parte 2 - Demo Packet Tracer: Modo Simulación y Complex PDU
-  "Vamos a Packet Tracer, que es donde esto se ve. Packet Tracer tiene un modo llamado Simulación: en vez de que el ping sea instantáneo, el programa frena el tiempo y uno avanza paso a paso, viendo el sobre que representa al paquete moverse de equipo en equipo.\n\nMando el ping y avanzo. Hago clic sobre el sobre mientras está en el enlace troncal, y se abre esta ventana: la pestaña Inbound PDU Details muestra la trama campo por campo con los valores en hexadecimal. Y acá está: la etiqueta 802.1Q, con el número de VLAN adentro.\n\nAhora avanzo un paso más, hasta que la trama llega al puerto de acceso de la computadora de destino, y la abro de nuevo: la etiqueta no está. El switch se la sacó antes de entregarla, porque la placa común la descartaría.\n\nY una función que investigamos y que casi nadie conoce: al lado del ping común hay otro ícono, un sobre abierto llamado Complex PDU. Permite fabricar un paquete a mano, eligiendo protocolo, puertos, tamaño y tiempo de vida (TTL), para provocar errores a propósito y estudiar cómo responde la red. Falta que se puedan hablar entre ellas. Sigue mi compañero.",
+  // Slide 6: Parte 2 - Ciclo Simétrico y Prueba de Aislamiento (Diapositiva 7)
+  "Para cerrar nuestra parte, veamos qué ocurre cuando la trama llega a la computadora de destino: al salir por el puerto de acceso, el switch le retira la etiqueta 802.1Q antes de entregarla. Y cuando esa computadora responde al ping con un ICMP Echo Reply, el proceso se repite exactamente como un espejo: el switch le vuelve a inyectar la etiqueta para cruzar el troncal y el switch emisor se la saca antes de entregársela al origen.\n\nLa gran conclusión operativa es que las computadoras finales son totalmente agnósticas a las VLANs: jamás se enteran de las etiquetas ni de la multiplexación del cable.\n\nY por último, realizamos la prueba crítica de aislamiento: ¿qué ocurre si intentamos enviar un ping desde una máquina de Sistemas (VLAN 10) hacia una de Administración (VLAN 20)? Como ven en pantalla, el ping falla de inmediato en la propia máquina de origen con una cruz roja, y el paquete ni siquiera puede salir.\n\n¿Por qué? Porque pertenecen a subredes IP distintas y la regla de TCP/IP exige obligatoriamente un Default Gateway para comunicarse. Pero los switches trabajan estrictamente en Capa 2 con direcciones MAC: garantizan el aislamiento pero no enrutan IPs.\n\nPara que Sistemas y Administración puedan comunicarse manteniendo la seguridad, necesitamos un equipo de Capa 3 que aproveche este mismo enlace troncal: la técnica Router-on-a-Stick. Le cedo la palabra a mi compañero.",
 
   // Slide 7: Parte 3 - El Salto a Capa 3
   "Gracias. Tenemos las VLANs creadas y sabemos transportarlas entre switches. Pero sigue abierto el problema de antes: dos computadoras en VLANs distintas no se pueden comunicar. En la vida real Contabilidad necesita llegar al servidor de archivos de forma controlada.\n\n¿Por qué el switch no puede hacerlo solo? Porque trabaja en Capa 2, con direcciones MAC. No sabe leer direcciones IP ni modificarlas. Lo único que sabe es que la VLAN 10 y la VLAN 20 no se tocan.\n\nVeamos qué pasa cuando una computadora quiere salir de su VLAN: una máquina 192.168.10.10 quiere hablarle a 192.168.20.20. Compara con su máscara y concluye que el destino está en otra red. Y acá está el detalle fino: en ese caso la computadora no pregunta por la MAC destino; pregunta por la MAC de su default gateway (el router), le entrega el paquete y se desentiende.\n\nNecesitamos un equipo de Capa 3. La forma obvia de tirar un cable por VLAN hacia el router funciona pero no escala: los routers tienen 2 o 4 interfaces físicas, no 15.",
@@ -707,3 +707,29 @@ function handleSlideAutoActions() {
 
 // Inicialización de la presentación
 updateSlideView();
+
+// ------------------------------------------------------------------------------
+// MODAL DE ZOOM DE IMÁGENES PARA EL EXPOSITOR
+// ------------------------------------------------------------------------------
+window.openImageModal = function(src, title = 'Detalle de Captura') {
+  const modal = document.getElementById('imageModal');
+  const img = document.getElementById('imgModalTarget');
+  const caption = document.getElementById('imgModalTitle');
+  if (modal && img && caption) {
+    img.src = src;
+    caption.innerText = title;
+    modal.classList.add('open');
+  }
+};
+
+window.closeImageModal = function(e) {
+  const modal = document.getElementById('imageModal');
+  if (modal) modal.classList.remove('open');
+};
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeImageModal();
+  }
+});
+
