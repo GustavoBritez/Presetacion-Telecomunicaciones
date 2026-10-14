@@ -661,7 +661,7 @@ function handleSlideAutoActions() {
   clearInterval(ethLoopInterval);
 
   const activeSlide = slides[currentSlide];
-  if (activeSlide && (activeSlide.querySelector('#simStpCanvas') || activeSlide.querySelector('#btnStpCutCable'))) {
+  if (activeSlide && (activeSlide.querySelector('#simStpCanvas') || activeSlide.querySelector('#btnStpCutCable') || activeSlide.querySelector('#btnStpCut') || activeSlide.querySelector('#cableStp13'))) {
     startStpTrafficLoop();
   } else if (currentSlide === 13) {
     // Slide 13: Demostración STP con loop continuo

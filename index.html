@@ -769,61 +769,8 @@ Request timed out. Request timed out.
       </div>
     </section>
 
-    <!-- SLIDE 8: PARTE 3 - ROUTER-ON-A-STICK Y DHCP -->
+<!-- SLIDE 9: PARTE 3 - DEMO EN PACKET TRACER: ROAS Y PARTICULARIDADES -->
     <section class="slide" data-slide="8">
-      <div class="slide-header">
-        <span class="section-tag">Parte 3: ROAS y DHCP</span>
-        <h2 class="slide-title">Router-on-a-Stick y Servicio DHCP</h2>
-        <p class="slide-subtitle">Una sola interfaz física dividida en subinterfaces lógicas, con entrega automática de
-          IPs.</p>
-      </div>
-
-      <div class="slide-body">
-        <div class="card">
-          <h3 class="card-title">Principio Operativo de ROAS</h3>
-          <div class="card-content">
-            <div class="concept-point">
-              <h4>Subinterfaces Virtuales</h4>
-              <p>La interfaz <code>GigabitEthernet0/0</code> se divide en <code>.10</code> y <code>.20</code>. Con un
-                solo cable el router tiene un pie en cada VLAN.</p>
-            </div>
-            <div class="concept-point">
-              <h4>Comando encapsulation dot1Q</h4>
-              <p>Le indica a la subinterfaz de qué VLAN se hace cargo y le asigna su propia dirección IP (Default
-                Gateway).</p>
-            </div>
-            <div class="concept-point">
-              <h4>Servicio DHCP Integrado</h4>
-              <p>El router entrega automáticamente IP, máscara y Gateway a las máquinas al encenderse, sin configuración
-                manual.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="card-title">Configuración Formal en Cisco IOS</h3>
-          <div class="card-content">
-            <pre
-              style="background: #1e293b; padding: 0.85rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.78rem; color: #f8fafc; line-height: 1.5;">
-Router(config)# interface GigabitEthernet0/0.10
-Router(config-subif)# encapsulation dot1Q 10
-Router(config-subif)# ip address 192.168.10.1 255.255.255.0
-
-Router(config)# interface GigabitEthernet0/0.20
-Router(config-subif)# encapsulation dot1Q 20
-Router(config-subif)# ip address 192.168.20.1 255.255.255.0
-
-! DHCP POOLS:
-Router(config)# ip dhcp pool POOL_VLAN10
-Router(dhcp-config)# network 192.168.10.0 255.255.255.0
-Router(dhcp-config)# default-router 192.168.10.1</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SLIDE 9: PARTE 3 - DEMO EN PACKET TRACER: ROAS Y PARTICULARIDADES -->
-    <section class="slide" data-slide="9">
       <div class="slide-header">
         <span class="section-tag">Parte 3: Demostración en Packet Tracer</span>
         <h2 class="slide-title">Ciclo del Paquete ROAS y la Herramienta PT</h2>
@@ -902,7 +849,7 @@ Router(dhcp-config)# default-router 192.168.10.1</pre>
     </section>
 
     <!-- SLIDE 10.1 PARTE 4 : HABLEMOS DE PACKET TRACER -->
-    <section class="slide" data-slide="10">
+    <section class="slide" data-slide="9">
 
       <div class="slide-header">
         <span class="section-tag">Parte 4: PACKET TRACER</span>
@@ -922,7 +869,7 @@ Router(dhcp-config)# default-router 192.168.10.1</pre>
 
 
     <!-- SLIDE 10.2 PARTE 4 : HABLEMOS DE PACKET TRACER -->
-    <section class="slide" data-slide="11">
+    <section class="slide" data-slide="10">
       <div class="slide-header">
         <span class="section-tag">Parte 4: Redundancia y STP</span>
         <h2 class="slide-title">La Debilidad Fatal: La Redundancia</h2>
@@ -943,7 +890,7 @@ Router(dhcp-config)# default-router 192.168.10.1</pre>
     </section>
 
     <!-- SLIDE 10.4: PARTE 4 - LA MECHA: LA REDUNDANCIA -->
-    <section class="slide" data-slide="13">
+    <section class="slide" data-slide="11">
       <div class="slide-header">
         <span class="section-tag">Parte 4: Redundancia y STP</span>
         <h2 class="slide-title">La Debilidad Fatal: La Redundancia</h2>
@@ -1003,7 +950,7 @@ Router(dhcp-config)# default-router 192.168.10.1</pre>
     </section>
 
     <!-- SLIDE 11: PARTE 4 - ¿POR QUÉ ETHERNET NO TIENE TTL? -->
-    <section class="slide" data-slide="14">
+    <section class="slide" data-slide="12">
       <div class="slide-header">
         <span class="section-tag">Parte 4: Causa Raíz</span>
         <h2 class="slide-title">¿Por Qué la Trama Ethernet No Muere Sola?</h2>
@@ -1079,7 +1026,7 @@ Router(dhcp-config)# default-router 192.168.10.1</pre>
     </section>
 
     <!-- SLIDE 12: PARTE 4 - SPANNING TREE PROTOCOL -->
-    <section class="slide" data-slide="15">
+    <section class="slide" data-slide="13">
       <div class="slide-header">
         <span class="section-tag">Parte 4: Spanning Tree</span>
         <h2 class="slide-title">Spanning Tree Protocol (STP)</h2>
@@ -1135,7 +1082,7 @@ Fa0/2      Altn  BLK  19      P2p [Ámbar - Bloqueado]
     </section>
 
     <!-- SLIDE 13: PARTE 4 - DEMO EN PACKET TRACER: CORTE EN VIVO Y FAILOVER -->
-    <section class="slide" data-slide="16">
+    <section class="slide" data-slide="14">
       <div class="slide-header">
         <span class="section-tag">Parte 4: Demostración en Packet Tracer</span>
         <h2 class="slide-title">Demostración: Corte en Vivo con la Tijera</h2>
@@ -1211,7 +1158,7 @@ Fa0/2      Altn  BLK  19      P2p [Ámbar - Bloqueado]
     </section>
 
     <!-- SLIDE 14: CONCLUSIÓN Y CIERRE -->
-    <section class="slide" data-slide="17">
+    <section class="slide" data-slide="15">
       <div class="slide-header" style="text-align: center;">
         <span class="section-tag">Cierre de Exposición</span>
         <h2 class="slide-title">Síntesis de la Arquitectura Integrada</h2>
