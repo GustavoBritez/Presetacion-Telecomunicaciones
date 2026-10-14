@@ -62,12 +62,6 @@ function updateSlideView() {
   playStepBeep();
   handleSlideAutoActions();
 
-  if (typeof currentFiberImg !== 'undefined' && currentFiberImg !== 1) {
-    currentFiberImg = 1;
-    const fiberImg = document.getElementById('imgFiberToggle');
-    if (fiberImg) fiberImg.src = 'fibra_1.png';
-  }
-
   // Reproducir videos de la diapositiva activa, pausar los de diapositivas inactivas
   const activeSlide = slides[currentSlide];
   document.querySelectorAll('video').forEach(vid => {
@@ -151,21 +145,8 @@ window.addEventListener('keydown', (e) => {
     prevSlide();
   } else if (e.key.toLowerCase() === 'f') {
     if (btnFullscreen) btnFullscreen.click();
-  } else if (e.key.toLowerCase() === 'p') {
-    toggleFiberImage();
   }
 });
-
-// ------------------------------------------------------------------------------
-// ALTERNAR IMAGEN DIRECTA (ÚNICAMENTE CON TECLA 'P') EN SLIDE DE FIBRA ÓPTICA
-// ------------------------------------------------------------------------------
-let currentFiberImg = 1;
-function toggleFiberImage() {
-  const img = document.getElementById('imgFiberToggle');
-  if (!img) return;
-  currentFiberImg = (currentFiberImg === 1) ? 2 : 1;
-  img.src = `fibra_${currentFiberImg}.png`;
-}
 
 // ==============================================================================
 // SIMULACIÓN 1 (SLIDE 1): INUNDACIÓN DE BROADCAST EN RED PLANA (SVG COORDINATES)
